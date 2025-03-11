@@ -1,5 +1,7 @@
 module ExchangeProviders
   class ParamsValidator
+    attr_reader :errors
+
     def initialize(params)
       @params = params
       @errors = []
@@ -23,7 +25,7 @@ module ExchangeProviders
     def validate_provider_name
       if params[:provider_name].blank?
         @errors << "Provider name can't be blank"
-      elsif RATES_PROVIDERS.keys.include?(params[:provider_name].downcase)
+      elsif RATES_PROVIDERS.keys.exclude?(params[:provider_name])
         @errors << "Provider #{params[:provider_name]} is not supported"
       end
     end

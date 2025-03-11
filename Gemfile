@@ -20,14 +20,16 @@ gem "rack-cors"
 # HTTP client for making API requests
 gem "faraday", "~> 2.7.10"
 
-# For caching
+# Caching
 gem "redis", "~> 5.0.7"
 
-# For background jobs
+# Background jobs
 # gem "sidekiq", "~> 7.1.3"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
+  gem "pry"
+  gem "pry-byebug"
   gem "rspec-rails", "~> 6.0.3"
   gem "factory_bot_rails", "~> 6.2.0"
   gem "faker", "~> 3.2.1"

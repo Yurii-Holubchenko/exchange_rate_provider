@@ -1,7 +1,5 @@
-require 'rails_helper'
+describe "ExchangeRates" do
+  describe "GET /exchange_rates" do
 
-RSpec.describe "ExchangeRates", type: :request do
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
   end
 end

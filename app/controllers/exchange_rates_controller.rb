@@ -1,18 +1,25 @@
 class ExchangeRatesController < ApplicationController
   # Get exchange rates for Provider
   #
-  # @param [String] provider_name bank abbreviation(case insensitive). *Ex.:* "CNB" OR "cnb".`
+  # *Params*(all params case sensitive):
   #
-  # @param [String] source_currency - currency code. *Ex.:* "CZK".
+  # \:provider_name[String](*required*) - bank abbreviation. *Ex.:* "CNB".
   #
-  # @param [String] target_currency - currency_code OR list of currency codes with "/" separator. *Ex.:* "USD/EUR".
+  # \:source_currency[String](*required*) - currency code. *Ex.:* "CZK".
   #
-  # @return [JSON]
+  # \:target_currency[String](*optional*) - currency_code OR list of currency codes with "/" separator. *Ex.:* "USD/EUR".
+  #
+  # Return: [JSON]
   def index
-    params_validation = ParamsValidator.new(permitted_params).call
+    params_validation = ExchangeProviders::ParamsValidator.new(permitted_params).call
 
     if params_validation.valid?
-      exchange_provider = ExchangeProviders::Provider.new(**permitted_params)
+      exchange_provider = ExchangeProviders::Provider.new(
+        provider_name: permitted_params[:provider_name],
+        source_currency: permitted_params[:source_currency],
+        target_currency: permitted_params[:target_currency]
+      ).provider
+
       status, result = exchange_provider.fixed_rates
 
       render json: { result: result }, status: status

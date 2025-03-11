@@ -1,5 +1,5 @@
 module ExchangeProviders
   RATES_PROVIDERS = {
-    "cnb" => Cnb::RatesProvider
+    "CNB" => { klass: Cnb::RatesProvider, currency: "CZK" },
   }.freeze
 end
