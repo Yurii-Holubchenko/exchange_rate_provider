@@ -3,7 +3,6 @@ describe ExchangeProviders::Cnb::FixedRatesProvider do
   let(:target_currency) { ["USD", "EUR"] }
   let(:provider) { described_class.new(source_currency: source_currency, target_currency: target_currency) }
   let(:url) { "https://api.cnb.cz/cnbapi/exrates/daily?date=#{Date.today}&lang=EN" }
-  let(:error_response) { instance_double(Faraday::Response, success?: false, status: 500) }
   let(:successful_response) do
     instance_double(
       Faraday::Response,
@@ -87,17 +86,21 @@ describe ExchangeProviders::Cnb::FixedRatesProvider do
         allow(Faraday).to receive(:get).with(url).and_return(error_response)
       end
 
-      it "handles 500 error" do
-        status, message = provider.call
+      context "with 500 error" do
+        let(:error_response) { instance_double(Faraday::Response, success?: false, status: 500) }
 
-        expect(status).to eq(500)
-        expect(message).to eq("Internal Server Error")
+        it do
+          status, message = provider.call
+
+          expect(status).to eq(500)
+          expect(message).to eq("Internal Server Error")
+        end
       end
 
       context "with 400 error" do
         let(:error_response) { instance_double(Faraday::Response, success?: false, status: 400) }
 
-        it "handles 400 error" do
+        it do
           status, message = provider.call
 
           expect(status).to eq(400)

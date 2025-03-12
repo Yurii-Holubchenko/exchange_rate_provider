@@ -39,7 +39,7 @@ module ExchangeProviders
       attr_reader :url, :source_currency, :target_currency
 
       def response
-        Rails.cache.fetch("cnb_fixed_exchange_rates", expires_in: CACHE_EXPIRATION) do
+        Rails.cache.fetch("cnb_fixed_exchange_rates:#{Rails.env}", expires_in: CACHE_EXPIRATION) do
           Faraday.get(url)
         end
       end
