@@ -124,7 +124,7 @@ describe ExchangeProviders::Cnb::FixedRatesProvider do
 
     context "when caching is used" do
       it "uses Rails cache with correct expiration" do
-        expect(Rails.cache).to receive(:fetch).with("cnb_fixed_exchange_rates", expires_in: 1.hour)
+        expect(Rails.cache).to receive(:fetch).with("cnb_fixed_exchange_rates:test", expires_in: 1.hour)
         provider.call
       end
     end
