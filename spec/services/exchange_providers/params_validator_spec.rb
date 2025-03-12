@@ -8,7 +8,9 @@ describe ExchangeProviders::ParamsValidator do
   describe "#valid?" do
     let(:validator) { described_class.new(params) }
 
-    before { validator.call }
+    before do
+      validator.call
+    end
 
     context "when all validations pass" do
       let(:params) do
@@ -35,6 +37,17 @@ describe ExchangeProviders::ParamsValidator do
 
   describe ":provider_name validations" do
     let(:validator) { described_class.new(params).call }
+
+    context "when :provider_name is valid" do
+      let(:params) do
+        {
+          provider_name: "CNB",
+          source_currency: "CZK"
+        }
+      end
+
+      it { expect(validator.errors).to be_empty }
+    end
 
     context "when :provider_name is blank" do
       let(:params) do
@@ -72,7 +85,18 @@ describe ExchangeProviders::ParamsValidator do
 
   describe ":source_currency validations" do
     let(:validator) { described_class.new(params).call }
-    
+
+    context "when :source_currency is valid" do
+      let(:params) do
+        {
+          provider_name: "CNB",
+          source_currency: "CZK"
+        }
+      end
+
+      it { expect(validator.errors).to be_empty }
+    end
+
     context "when source_currency is blank" do
       let(:params) do
         {

@@ -19,9 +19,12 @@ gem "rack-cors"
 
 # HTTP client for making API requests
 gem "faraday", "~> 2.7.10"
+gem "faraday-http-cache"
 
 # Caching
 gem "redis", "~> 5.0.7"
+gem "redis-rails"
+gem "redis-client"
 
 # Background jobs
 # gem "sidekiq", "~> 7.1.3"

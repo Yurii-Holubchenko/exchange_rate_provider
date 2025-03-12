@@ -1,6 +1,8 @@
 module ExchangeProviders
   module Cnb
     class FixedRatesProvider
+      CACHE_EXPIRATION = 1.hour
+
       def initialize(source_currency:, target_currency:)
         @url = "https://api.cnb.cz/cnbapi/exrates/daily?date=#{Date.today}&lang=EN"
         @target_currency = target_currency
@@ -37,7 +39,9 @@ module ExchangeProviders
       attr_reader :url, :source_currency, :target_currency
 
       def response
-        Faraday.get(url)
+        Rails.cache.fetch("cnb_fixed_exchange_rates", expires_in: CACHE_EXPIRATION) do
+          Faraday.get(url)
+        end
       end
 
       def handle_error(response)
